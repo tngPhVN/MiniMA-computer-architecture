@@ -1,0 +1,55 @@
+void decode (intput){
+    // Decoded message bit 
+    string output[];
+    // Number of error
+    errorCount = 0; 
+
+    // input[15] = p0, input[14] = p1, input[13] = p2, input[7] = p8 
+    c0 = input[0] ^ input[1] ^ input[2] ^ input[3] ^ input[4] ^ input[5] ^ input[6] 
+                  ^ input[8] ^ input[9] ^ input[10] ^ input[12] ^ input[13] ^ input[14] ^ input[15]; 
+    c1 = input [14] ^ input [12] ^ input [10] ^ input [8] ^ input [6] ^ input [4] ^ input [2] ^ input [0];
+    c2 = input [13] ^ input [12] ^ input [9] ^ input [8] ^ input [5] ^ input [4] ^ input [1] ^ input [0];
+    c4 = input [11] ^ input [10] ^ input [9] ^ input [8] ^ input [3] ^ input [2] ^ input [1] ^ input [0];
+    c8 = input [7] ^ input [6] ^ input [5] ^ input [4] ^ input [3] ^ input [2] ^ input [1] ^ input [0]; 
+
+    // 1 error bit 
+    if (c0 == 1){
+        errorCount = 1;  
+    }
+    // 0 or 2 error bits when c0 == 0 
+    else {
+        // All Hamming parity bits are clean, we are guaranteed to have 0 error 
+        if (c1 == 0 && c2 == 0 && c4 == 0 && c8 == 0){
+            errorCount = 0; 
+        }
+        
+        // Any of parity bits is wrong, we are guaranteed to have 2 errors  
+        if (c1 == 1 || c2 == 1 || c4 == 1 || c8 == 1){
+            errorCount = 2; 
+        }
+    }
+
+    if (errorCount == 0){
+        output[0] = 0
+        output[1] = 0
+
+    }
+    else if (errorCount == 1){
+        output[0] = 0
+        output[1] = 1
+
+        // parity bit error
+        if ( (c1 == 1 && c2 == 0 && c4 == 0 && c8 == 0) ||
+             (c1 == 0 && c2 == 1 && c4 == 0 && c8 == 0) ||
+             (c1 == 0 && p2 == 0 && c4 == 1 && c8 == 0) ||
+             (c1 == 0 && p2 == 0 && c4 == 0 && c8 == 1) ) {
+                // No need to fix any data bit
+        }
+        else{
+            // Fix the error data bit
+        }
+    }
+    else{
+        output[0] = 1
+    }
+}
