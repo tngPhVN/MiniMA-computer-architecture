@@ -17,28 +17,31 @@ module Register_File #(parameter W=8, D=3)(
     output logic [W-1:0] other_reg_out    // Value of the other register 
 );
 
-logic [W-1:0] registers[2**D];      // general purpose registers 
+logic [W-1:0] registers[2**D];      // registers 
 
 // always read at zero register and some other choice of gen registers 
 always_comb 
 begin
-	zero_reg_out = registers[3'b000];   
+	zero_reg_out = registers[0];   
 	other_reg_out = registers[read_addr];
 end 
 
 always_ff @ (posedge clk)
   if (reg_write) begin 
     if (immediate) begin 
-      //$display("imm val in reg_file %d =====", immediate_val);
-      registers[read_addr] <= immediate_val; 
+      //$display("imm val is %d =====", immediate_val);
+      //$display("write_addr %d\n", write_addr);
+      registers[write_addr] <= immediate_val; 
     end 
     else begin
-      //$display ("read_reg[%d] %b !!!", read_addr, data_in);
+      //$display ("data_in is %b", data_in);
+      //$display ("write_addr is %d", write_addr);
+      //$display ("zero_store? is %d", zero_store);
        
       if (zero_store) 
-        registers[3'b000] <= data_in; 
+        registers[0] <= data_in; 
       else 
-        registers[read_addr] <= data_in;
+        registers[write_addr] <= data_in;
     end
   end
 

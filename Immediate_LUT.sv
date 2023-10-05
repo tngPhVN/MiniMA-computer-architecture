@@ -10,6 +10,7 @@ always_comb case (index)
     3'b011: data = 128;           // 128  
     3'b100: data = 59;           // 59 
     3'b101: data = 4;           // 4
+  	3'b110: data = 2;
     default: data = 8'hx; 
 endcase
 

@@ -14,7 +14,6 @@ logic [7:0] memory [256];
 always_comb begin
     if(read_en) begin
       data_out = memory[base_address + offset_address];
-	$display("sb memory[%d] = %b",base_address+offset_address, data_out);
     end 
     else data_out = 8'bZ;
 end
@@ -26,7 +25,6 @@ always_ff @ (posedge clk) begin
     end 
   else if(write_en) begin
     memory[base_address + offset_address] <= data_in;
-	$display("lb memory[$d] = %d",base_address+offset_address, data_in);
   end
 end
 endmodule 

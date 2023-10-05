@@ -26,7 +26,9 @@ bit  [15:0] score1, case1;
   top_level DUT(.Clk(clk), .Reset(req), .Done(done));            // replace "proc" with the name of your top level module
 
 initial begin
-  for(int i=0;i<15;i++)	begin
+  $dumpfile("dump.vcd");
+	$dumpvars(1);
+  for(int i=0;i<2;i++)	begin
     d1_in[i] = $random>>4;        // create 15 messages	   '1    '0
 // copy 15 original messages into first 30 bytes of memory 
 // rename "dm1" and/or "core" if you used different names for these
@@ -39,7 +41,7 @@ initial begin
 // generate parity for each message; display result and that of DUT
   $display("start program 1");
   $display();
-  for(int i=0;i<15;i++) begin
+  for(int i=0;i<1;i++) begin
     p8 = ^d1_in[i][11:5];
     p4 = (^d1_in[i][11:8])^(^d1_in[i][4:2]); 
     p2 = d1_in[i][11]^d1_in[i][10]^d1_in[i][7]^d1_in[i][6]^d1_in[i][4]^d1_in[i][3]^d1_in[i][1];

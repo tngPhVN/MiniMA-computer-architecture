@@ -91,7 +91,6 @@ Register_File #(.W(8),.D(3)) RF (
     .reg_write(Reg_Write)           ,
     .zero_store (Zero_Store)        , 
     .immediate (Immediate)          ,
-    // .read_addr_a (3'b000)           ,       // Always read from R0 
     .read_addr (Reg_Read_Addr)    ,  
     .write_addr (Reg_Write_Addr)    , 
     .data_in (Data_In_Reg)          , 
@@ -102,6 +101,9 @@ Register_File #(.W(8),.D(3)) RF (
 
 // ALU 
 ALU ALU_INS(
+  	.halt(Halt),
+  	.zero_store(Zero_Store),
+  	.immediate(Immediate),
     .op_code(Instruction[6:4])   , 
     .input_0(Read_A)             , 
     .input_1(Read_B)             , 
@@ -133,8 +135,8 @@ MUX_1 B_MUX (
 
 // Write Address for Reg File 
 MUX_3 WA_MUX (
-    .data_0 (3'b000)              ,
-    .data_1 (Instruction[3:1])    ,
+    .data_0 (Instruction[3:1])              ,
+    .data_1 (3'b000)    ,
     .selector (Zero_Store)        , 
     .data_out (Reg_Write_Addr)   
 );
@@ -149,8 +151,8 @@ MUX_3 RA_MUX (
 
 // Data to write to Reg File 
 MUX_8 D_MUX (
-    .data_0 (Data_Out_Mem)        ,
-    .data_1 (ALU_Out)             ,
+    .data_0 (ALU_Out)        ,
+    .data_1 (Data_Out_Mem)             ,
     .selector (Mem_To_Reg)        , 
     .data_out (Data_In_Reg)   
 );

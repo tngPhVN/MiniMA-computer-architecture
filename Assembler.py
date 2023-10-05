@@ -46,8 +46,11 @@ def decimal_to_binary(x):
     return "100"
   if x == 29:
     return "010"
+# Branch target
   if x == 4:
     return "101"
+  if x == 2: 
+    return "110"
   if x > 1:
     return decimal_to_binary(x // 2) + str(x%2)
 
@@ -180,28 +183,26 @@ with open("program1.txt", "r")  as f:
 
         elif instr == "LSL":
             if str_array[1] != "r0":
-                des = "1"
+                op = parse_code("00010" + process_reg(str_array[1]) + "1")
             else: 
-                des = "0"
+                op = parse_code("00010" + process_reg(str_array[2]) + "0")
 
-            op = parse_code("00010" + process_reg(str_array[2]) + des)
             mach_code.append(op)
 
         elif instr == "LSR":
             if str_array[1] != "r0":
-                des = "1"
+                op = parse_code("00110" + process_reg(str_array[1]) + "1")
             else: 
-                des = "0"
+                op = parse_code("00110" + process_reg(str_array[2]) + "0")
 
-            op = parse_code("00110" + process_reg(str_array[2]) + des)
             mach_code.append(op)
 
         elif instr == "MOV": 
             if str_array[1] != "r0":
-                des = "1"
+                op = parse_code("00111" + process_reg(str_array[1]) + "1")
             else: 
-                des = "0"
-            op = parse_code("00111" + process_reg(str_array[2]) + des)
+                op = parse_code("00111" + process_reg(str_array[2]) + "0")
+            
             mach_code.append(op)
 
         elif instr == "SB":
@@ -217,7 +218,7 @@ with open("program1.txt", "r")  as f:
             else:
                offset_num = parse_code("000")
 
-            op = parse_code("01" + offset_num + process_reg(str_array[1]) + "1")
+            op = parse_code("01" + offset_num + process_reg(mem_des_arr[1]) + "1")
             mach_code.append(op)
 
         elif instr == "LB":
@@ -239,9 +240,8 @@ with open("program1.txt", "r")  as f:
         elif instr == "BNE":
             # BNE r1 r6 loop   
             # str_array = ["BNE", "r1", "r6", "loop"]
-            # do a look up label in lut dictionary which in the script for my program1 will output 0 
+            # do a look up label in lut dictionary 
             op = parse_code("10" + process_reg_branch(str_array[1]) + process_reg_branch(str_array[2]) + process_decimal(lut[str_array[3]]))
-            print(lut[str_array[3]])
             mach_code.append(op)
 
         elif instr == "IMM":
