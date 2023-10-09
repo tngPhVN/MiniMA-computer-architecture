@@ -4,7 +4,7 @@ module Branch_LUT #(PC_width = 12)(
 );
 
 always_comb case (index)
-    3'b101: target = 4;   
+    3'b101: target = 1;   
     default: target = 12'bx; 
 endcase
 

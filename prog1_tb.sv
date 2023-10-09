@@ -41,7 +41,7 @@ initial begin
 // generate parity for each message; display result and that of DUT
   $display("start program 1");
   $display();
-  for(int i=0;i<1;i++) begin
+  for(int i=0;i<3;i++) begin
     p8 = ^d1_in[i][11:5];
     p4 = (^d1_in[i][11:8])^(^d1_in[i][4:2]); 
     p2 = d1_in[i][11]^d1_in[i][10]^d1_in[i][7]^d1_in[i][6]^d1_in[i][4]^d1_in[i][3]^d1_in[i][1];

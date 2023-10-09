@@ -94,73 +94,34 @@ loop:
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
-
-    // XOR r2 and r0, r0 now holds: b11^b10^b9^b8^b7^b6^b5 which is p8    
-    XOR r0 r2 r0 
-    
-    // Store p8 to r7
-    MOV r7 r0 
-
-    // OR r0 with r3 to get: b11_b10_b9_b8_b7_b6_b5_p8
-    OR r0 r3 r0 
-
-    // Store the first half output to memory 
-    SB r0 1[r1] 
-
-    // Store r7 to r0 to do 'XOR' operation 
-    MOV r0 r7
-
-    // XOR r0 itself, r7 now holds: ^(b11:b5)^p8 
-    XOR r7 r0 r0 
-    
-    // Calculating p4 
-    // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_0_b11
-    MOV r0 r4
-    LSR r0 r0 
+    XOR r0 r2 r0    // XOR r2 and r0, r0 now holds: b11^b10^b9^b8^b7^b6^b5 which is p8     
+    MOV r7 r0       // Store p8 to r7
+    OR r0 r3 r0     // OR r0 with r3 to get: b11_b10_b9_b8_b7_b6_b5_p8
+    SB r0 2[r1]     // Store the first half output to memory    
+    MOV r0 r7       // Store r7 to r0 to do 'XOR' operation 
+    XOR r7 r0 r0    // XOR r0 itself, r7 now holds: ^(b11:b5)^p8 
+    MOV r0 r4       // Calculating p4 
+    LSR r0 r0       // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_0_b11
     LSR r0 r0
-
-    // Store r0 to r2 for later parity bit p4 
-    MOV r2 r0 
-
-    // Right shift to get b10, r6 now holds: 0_0_0_0_0_0_b11_b10
-    MOV r0 r4
+    MOV r2 r0       // Store r0 to r2 for later parity bit p4 
+    MOV r0 r4       // Right shift to get b10, r6 now holds: 0_0_0_0_0_0_b11_b10
     LSR r0 r0
-
-    // Left shift to get b10, r6 now holds: 0_0_0_0_0_b11_b10_0
-    LSL r0 r0 
-
-    // Left shift to get b10, r6 now holds: 0_0_0_0_b11_b10_0_0
-    LSL r0 r0 
-
-    // Left shift to get b10, r6 now holds: 0_0_0_b11_b10_0_0_0
+    LSL r0 r0       // Left shift to get b10, r6 now holds: b10_0_0_0_0_0_0_0
+    LSL r0 r0       
+    LSL r0 r0       
     LSL r0 r0  
-
-    // Left shift to get b10, r6 now holds: 0_0_b11_b10_0_0_0_0
-    LSL r0 r0  
-
-    // Left shift to get b10, r6 now holds: 0_b11_b10_0_0_0_0_0
     LSL r0 r0 
-    
-    // Left shift to get b10, r6 now holds: b11_b10_0_0_0_0_0_0
     LSL r0 r0 
-
-    // Left shift to get b10, r6 now holds: b10_0_0_0_0_0_0_0 
     LSL r0 r0 
-
-    // Right shift 7 times 
+    LSR r0 r0       // Rightt shift r6 now holds: 0_0_0_0_0_0_0_b10
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10  
-    XOR r2 r2 r0 
-
-    // Left shift r4 7 times to get: b9_0_0_0_0_0_0_0 
-    MOV r0 r4
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10
+    MOV r0 r4       // Left shift r4 7 times to get: b9_0_0_0_0_0_0_0 
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
@@ -168,9 +129,6 @@ loop:
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
-
-    // Right shift 7 time to get: 0_0_0_0_0_0_0_b9  
-    MOV r0 r4
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
@@ -178,12 +136,8 @@ loop:
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b9  
-    XOR r2 r2 r0 
-
-    // Right shift r5 7 times to get: 0_0_0_0_0_0_0_b8
-    MOV r0 r5
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b9   
+    MOV r0 r5       // Right shift r5 7 times to get: 0_0_0_0_0_0_0_b8
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
@@ -191,424 +145,255 @@ loop:
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
-    
-    // XOR r2 and r0, r2 now holds: b11^b10^b9^b8 
-    XOR r2 r2 r0 
-
-    // Left shift r5 4 times to get: b4_b3_b2_b1_0_0_0_0
-    MOV r0 r5
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b9^b8
+    MOV r0 r5       // Left shift r5 4 times to get: b4_b3_b2_b1_0_0_0_0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
-
-    // Right shift 7 times to get: 0_0_0_0_0_0_0_b4
+    LSR r0 r0       // Right shift 7 times to get: 0_0_0_0_0_0_0_b4
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b9^b8^b4  
-    XOR r2 r2 r0 
-
-    // XOR r7 and r0, r7 now holds: ^(b11:b4)^p8
-    XOR r7 r7 r0 
-    
-    // Left shift 5 times to get: b3_b2_b1_0_0_0_0_0
-    MOV r0 r5
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b9^b8^b4
+    XOR r7 r7 r0    // XOR r7 and r0, r7 now holds: ^(b11:b4)^p8
+    MOV r0 r5       // Left shift 5 times to get: b3_b2_b1_0_0_0_0_0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
-
-    // Right shift 7 times to get: 0_0_0_0_0_0_0_b3
+    LSR r0 r0       // Right shift 7 times to get: 0_0_0_0_0_0_0_b3
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b9^b8^b4^b3  
-    XOR r2 r2 r0 
-
-    // XOR r7 and r0, r7 now holds: ^(b11:b3)^p8
-    XOR r7 r7 r0 
-    
-    // Left shift 6 times to get: b2_b1_0_0_0_0_0_0
-    MOV r0 r5
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b9^b8^b4^b3
+    XOR r7 r7 r0    // XOR r7 and r0, r7 now holds: ^(b11:b3)^p8
+    MOV r0 r5       // Left shift 6 times to get: b2_b1_0_0_0_0_0_0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
-
-    // Right shift 7 times to get: 0_0_0_0_0_0_0_b2
+    LSR r0 r0       // Right shift 7 times to get: 0_0_0_0_0_0_0_b2
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
+    XOR r7 r7 r0    // XOR r7 and r0, r7 now holds: ^(b11:b2)^p8  
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b9^b8^b4^b3^b2 which is p4 
+    MOV r0 r2       // XOR r7 and r0, r7 now holds: ^(b11:b2)^p8^p4
+    XOR r7 r7 r0   
+    MOV r0 r5       // Right shift r5 once to get: 0_b8_b7_b6_b5_b4_b3_b2
     LSR r0 r0
-
-    // XOR r7 and r0, r7 now holds: ^(b11:b2)^p8
-    XOR r7 r7 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b9^b8^b4^b3^b2 which is p4  
-    XOR r2 r2 r0 
-    
-    // XOR r7 and r0, r7 now holds: ^(b11:b2)^p8^p4 
-    MOV r0 r2
-    XOR r7 r7 r0  
-
-    // Right shift r5 once to get: 0_b8_b7_b6_b5_b4_b3_b2
-    MOV r0 r5
-    LSR r0 r0
-
-    // Left shift r6 5 times to get: b4_b3_b2_0_0_0_0_0
+    LSL r0 r0       // Left shift r6 5 times to get: b4_b3_b2_0_0_0_0_0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
-    LSL r0 r0
-
-    // StORe r0 to r3, r3 now holds: b4_b3_b2_0_0_0_0_0 
-    MOV r3 r0
-
-    // Left shift r2 4 times to get: 0_0_0_p4_0_0_0_0
-    MOV r0 r2 
+    MOV r3 r0       // StORe r0 to r3, r3 now holds: b4_b3_b2_0_0_0_0_0 
+    MOV r0 r2       // Left shift r2 4 times to get: 0_0_0_p4_0_0_0_0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
-
-    // OR r0 with r3 to get: b4_b3_b2_p4_0_0_0_0 
-    OR r3 r3 r0 
-
-    // Calculating p2 
-    // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_b11_b10
-    MOV r0 r4
+    OR r3 r3 r0     // OR r0 with r3 to get: b4_b3_b2_p4_0_0_0_0 
+    MOV r0 r4       // Calculating p2 
+    LSR r0 r0       // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_b11_b10 
+    LSR r0 r0       // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_0_b11
+    MOV r2 r0       // Store r0 to r2
+    MOV r0 r4       // Right shift to get b10, r6 now holds: b10_0_0_0_0_0_0_0
     LSR r0 r0 
-    
-    // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_0_b11
-    LSR r0 r0 
-
-    // Store r0 to r2 
-    MOV r2 r0 
-
-    // Right shift to get b10, r6 now holds: 0_0_0_0_0_0_b11_b10
-    MOV r0 r4
-    LSR r0 r0 
-
-    // Left shift to get b10, r6 now holds: 0_0_0_0_0_b11_b10_0
-    LSL r0 r0 
-
-    // Left shift to get b10, r6 now holds: 0_0_0_0_b11_b10_0_0
-    LSL r0 r0
-
-    // Left shift to get b10, r6 now holds: 0_0_0_b11_b10_0_0_0
-    LSL r0 r0
-
-    // Left shift to get b10, r6 now holds: 0_0_b11_b10_0_0_0_0
-    LSL r0 r0
-
-    // Left shift to get b10, r6 now holds: 0_b11_b10_0_0_0_0_0
-    LSL r0 r0 
-    
-    // Left shift to get b10, r6 now holds: b11_b10_0_0_0_0_0_0
-    LSL r0 r0
-
-    // Left shift to get b10, r6 now holds: b10_0_0_0_0_0_0_0 
-    LSL r0 r0
-
-    // Right shift 7 times 
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10  
-    XOR r2 r2 r0 
-
-    // Left shift r5 once to get: b7_b6_b5_b4_b3_b2_b1_0 
-    MOV r0 r5
-    LSL r0 r0 
-
-    // Right shift r6 7 times to get: 0_0_0_0_0_0_0_b7
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b7 
-    XOR r2 r2 r0 
-
-    // Left shift r5 twice to get: b6_b5_b4_b3_b2_b1_0_0 
-    MOV r0 r5 
     LSL r0 r0 
     LSL r0 r0
-
-    // Right shift r6 7 times to get: 0_0_0_0_0_0_0_b6
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b7^b6  
-    XOR r2 r2 r0 
-
-    // Left shift 4 times to get: b4_b3_b2_b1_0_0_0_0
-    MOV r0 r5
     LSL r0 r0
     LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-
-    // Right shift 7 times to get: 0_0_0_0_0_0_0_b4
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b7^b6^b4  
-    XOR r2 r2 r0 
-    
-    // Left shift 5 times to get: b3_b2_b1_0_0_0_0_0
-    MOV r0 r5
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-
-    // Right shift 7 times to get: 0_0_0_0_0_0_0_b3
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b7^b6^b4^b3  
-    XOR r2 r2 r0 
-
-    // Left shift 7 times to get: b1_0_0_0_0_0_0_0
-    MOV r0 r5
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-
-    // Right shift 4 times to get: 0_0_0_0_b1_0_0_0 
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // OR r0 with r3 to get: b4_b3_b2_p4_b1_0_0_0 
-    OR r3 r3 r0 
-
-    // Continue left shifting r6 to get: 0_0_0_0_0_0_0_b1 
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r7 and r0, r7 now holds: ^(b11:b1)^p8^p4
-    XOR r7 r7 r0 
-
-    // XOR r2 and r0, r2 now holds: b11^b10^b7^b6^b4^b3^b1 which is p2   
-    XOR r0 r2 r0
-
-    // XOR r7 and r0, r7 now holds: ^(b11:b1)^p8^p4^p2 
-    XOR r7 r7 r0 
-
-    // Left shift r2 2 times to get: 0_0_0_0_0_p2_0_0
-    LSL r0 r0
-    LSL r0 r0
-
-    // OR r0 with r3 to get: b4_b3_b2_p4_b1_p2_0_0
-    OR r3 r3 r0  
-
-    // Calculating p1 
-    // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_b11_b10
-    MOV r0 r4 
-    LSR r0 r0 
-    
-    // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_0_b11
-    LSR r0 r0 
-
-    // Store r0 to r2 
-    MOV r2 r0 
-
-     // Left shift r4 7 times to get: b9_0_0_0_0_0_0_0 
-    MOV r0 r4
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-
-    // Right shift 7 time to get: 0_0_0_0_0_0_0_b9  
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b9  
-    XOR r2 r2 r0 
-
-    // Left shift r5 once to get: b7_b6_b5_b4_b3_b2_b1_0 
-    MOV r0 r5
-    LSL r0 r0 
-
-    // Right shift r6 7 times to get: 0_0_0_0_0_0_0_b7
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b9^b7 
-    XOR r2 r2 r0
-
-    // Left shift r5 3 times to get: b5_b4_b3_b2_b1_0_0_0 
-    MOV r0 r5
     LSL r0 r0 
     LSL r0 r0
-
-    // Right shift r6 7 times to get: 0_0_0_0_0_0_0_b5
+    LSL r0 r0
+    LSR r0 r0       // Right shift 7 times 
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10 
+    MOV r0 r5       // Left shift r5 once to get: b7_b6_b5_b4_b3_b2_b1_0 
+    LSL r0 r0 
+    LSR r0 r0       // Right shift r6 7 times to get: 0_0_0_0_0_0_0_b7
     LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b9^b7^b5 
-    XOR r2 r2 r0
-
-    // Left shift 4 times to get: b4_b3_b2_b1_0_0_0_0
-    MOV r0 r5
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b7
+    MOV r0 r5       // Left shift r5 twice to get: b6_b5_b4_b3_b2_b1_0_0 
+    LSL r0 r0   
+    LSL r0 r0
+    LSR r0 r0       // Right shift r6 7 times to get: 0_0_0_0_0_0_0_b6
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b7^b6 
+    MOV r0 r5       // Left shift 4 times to get: b4_b3_b2_b1_0_0_0_0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
-
-    // Right shift 7 times to get: 0_0_0_0_0_0_0_b4
+    LSR r0 r0       // Right shift 7 times to get: 0_0_0_0_0_0_0_b4
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
     LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b9^b7^b5^b4 
-    XOR r2 r2 r0
-
-    // Left shift 6 times to get: b2_b1_0_0_0_0_0_0
-    MOV r0 r5
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-    LSL r0 r0
-
-    // Right shift 7 times to get: 0_0_0_0_0_0_0_b2
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b9^b7^b5^b4^b2  
-    XOR r2 r2 r0
-
-    // Left shift 7 times to get: b1_0_0_0_0_0_0_0
-    MOV r0 r5
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b7^b6^b4
+    MOV r0 r5       // Left shift 5 times to get: b3_b2_b1_0_0_0_0_0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
     LSL r0 r0
+    LSR r0 r0       // Right shift 7 times to get: 0_0_0_0_0_0_0_b3
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b7^b6^b4^b3
+    MOV r0 r5       // Left shift 7 times to get: b1_0_0_0_0_0_0_0
     LSL r0 r0
     LSL r0 r0
-
-    // Right shift 7 times to get: 0_0_0_0_0_0_0_b1 
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-    LSR r0 r0
-
-    // XOR r2 and r0, r2 now holds: b11^b9^b7^b5^b4^b2^b1 which is p1   
-    XOR r0 r2 r0
-
-    // XOR r7 and r0, r7 now holds: ^(b11:b1)^p8^p4^p2^p1 which is p0 
-    XOR r7 r7 r0 
-
-    // Left shift r0 once to get: 0_0_0_0_0_0_p1_0
     LSL r0 r0
-
-    // OR r0 with r3 to get: b4_b3_b2_p4_b1_p2_p1_0
-    OR r3 r3 r0  
-    
-    // Store r7 to r0 to do 'OR' operation 
-    MOV r0 r7
-
-    // OR r0 with r3 to get: b4_b3_b2_p4_b1_p2_p1_p0
-    OR r0 r3 r0  
-
-    // Store the second half of output to memory 
-    SB r0 2[r1]
-
-    // Load immediate 1 for increment 
-    IMM r0 1 
-
-    // Increment memory index for next iteration 
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSR r0 r0       // Right shift 4 times to get: 0_0_0_0_b1_0_0_0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    OR r3 r3 r0     // OR r0 with r3 to get: b4_b3_b2_p4_b1_0_0_0 
+    LSR r0 r0       // Continue left shifting r6 to get: 0_0_0_0_0_0_0_b1
+    LSR r0 r0
+    LSR r0 r0
+    XOR r7 r7 r0    // XOR r7 and r0, r7 now holds: ^(b11:b1)^p8^p4
+    XOR r0 r2 r0    // XOR r2 and r0, r2 now holds: b11^b10^b7^b6^b4^b3^b1 which is p2
+    XOR r7 r7 r0    // XOR r7 and r0, r7 now holds: ^(b11:b1)^p8^p4^p2 
+    LSL r0 r0       // Left shift r2 2 times to get: 0_0_0_0_0_p2_0_0
+    LSL r0 r0
+    OR r3 r3 r0     // OR r0 with r3 to get: b4_b3_b2_p4_b1_p2_0_0
+    MOV r0 r4       // Calculating p1 
+    LSR r0 r0       // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_b11_b10
+    LSR r0 r0       // Right shift to get b11, r6 now holds: 0_0_0_0_0_0_0_b11
+    MOV r2 r0       // Store r0 to r2 
+    MOV r0 r4       // Left shift r4 7 times to get: b9_0_0_0_0_0_0_0 
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSR r0 r0       // Right shift 7 time to get: 0_0_0_0_0_0_0_b9
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b9
+    MOV r0 r5       // Left shift r5 once to get: b7_b6_b5_b4_b3_b2_b1_0 
+    LSL r0 r0 
+    LSR r0 r0       // Right shift r6 7 times to get: 0_0_0_0_0_0_0_b7
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b9^b7
+    MOV r0 r5       // Left shift r5 3 times to get: b5_b4_b3_b2_b1_0_0_0
+    LSL r0 r0 
+    LSL r0 r0
+    LSL r0 r0
+    LSR r0 r0       // Right shift r6 7 times to get: 0_0_0_0_0_0_0_b5
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b9^b7^b5
+    MOV r0 r5       // Left shift 4 times to get: b4_b3_b2_b1_0_0_0_0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSR r0 r0       // Right shift 7 times to get: 0_0_0_0_0_0_0_b4
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b9^b7^b5^b4
+    MOV r0 r5       // Left shift 6 times to get: b2_b1_0_0_0_0_0_0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSR r0 r0       // Right shift 7 times to get: 0_0_0_0_0_0_0_b2
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r2 r2 r0    // XOR r2 and r0, r2 now holds: b11^b9^b7^b5^b4^b2
+    MOV r0 r5       // Left shift 7 times to get: b1_0_0_0_0_0_0_0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0
+    LSL r0 r0   
+    LSR r0 r0       // Right shift 7 times to get: 0_0_0_0_0_0_0_b1 
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    LSR r0 r0
+    XOR r0 r2 r0    // XOR r2 and r0, r2 now holds: b11^b9^b7^b5^b4^b2^b1 which is p1
+    XOR r7 r7 r0    // XOR r7 and r0, r7 now holds: ^(b11:b1)^p8^p4^p2^p1 which is p0
+    LSL r0 r0       // Left shift r0 once to get: 0_0_0_0_0_0_p1_0
+    OR r3 r3 r0     // OR r0 with r3 to get: b4_b3_b2_p4_b1_p2_p1_0
+    MOV r0 r7       // Store r7 to r0 to do 'OR' operation
+    OR r0 r3 r0     // OR r0 with r3 to get: b4_b3_b2_p4_b1_p2_p1_p0
+    SB r0 1[r1]     // Store the second half of output to memory 
+    IMM r0 1        // Load immediate 1 for increment 
+    ADD r1 r1 r0    // Increment memory index for next iteration
     ADD r1 r1 r0 
-    ADD r1 r1 r0 
-
-    // Load immediate 59 
-    IMM r6 59 
-
-    // Check if done iteration, if index of data_mem for output is not equal 59, then continue looping 
-    MOV r0 r1
-    BNE r0 r6 loop     
+    IMM r6 59       // Load immediate 59 
+    MOV r0 r1       // Check if done iteration, if index of data_mem for output is not equal 59, then continue looping 
+    BNE r0 r6 loop 
 HALT   
