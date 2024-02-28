@@ -6,7 +6,7 @@ this design is to prioritize simplicity in memory while able to ensure time effi
 
 Project partner: [Thu Mai](https://www.linkedin.com/in/thu-mai-237992259/)  
 
-The report of ISA of this machine is included here : [MiniMa Report](/document/ThanhPhan_ThuMai_CSE141L_FINAL_REPORT.pdf)
+The report of ISA of this machine is included here : [MiniMa Report](document/MiniMA_Architectecture_Report.pdf)
 
 program 1: Given a series of fifteen 11-bit message blocks in data mem[0:29], generate the corresponding 16-bit encoded versions and store these in data mem[30:59].
 
